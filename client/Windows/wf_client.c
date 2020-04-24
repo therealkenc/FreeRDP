@@ -362,7 +362,8 @@ static BOOL wf_post_connect(freerdp* instance)
 	if (wfc->fullscreen)
 		dwStyle = WS_POPUP;
 	else if (!settings->Decorations)
-		dwStyle = WS_CHILD | WS_BORDER;
+		//dwStyle = WS_CHILD | WS_BORDER;
+		dwStyle = WS_OVERLAPPED;
 	else
 		dwStyle =
 		    WS_CAPTION | WS_OVERLAPPED | WS_SYSMENU | WS_MINIMIZEBOX | WS_SIZEBOX | WS_MAXIMIZEBOX;
@@ -372,6 +373,8 @@ static BOOL wf_post_connect(freerdp* instance)
 		wfc->hwnd = CreateWindowEx((DWORD)NULL, wfc->wndClassName, wfc->window_title, dwStyle, 0, 0,
 		                           0, 0, wfc->hWndParent, NULL, wfc->hInstance, NULL);
 		SetWindowLongPtr(wfc->hwnd, GWLP_USERDATA, (LONG_PTR)wfc);
+		wfc->client_x = (settings->DesktopPosX != UINT32_MAX) ? settings->DesktopPosX : 0;
+		wfc->client_y = (settings->DesktopPosY != UINT32_MAX) ? settings->DesktopPosY : 0;
 	}
 
 	wf_resize_window(wfc);

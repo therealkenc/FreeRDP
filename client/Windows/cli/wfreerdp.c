@@ -42,7 +42,7 @@
 
 #include <shellapi.h>
 
-INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
+static INT WINAPI WinMain_entry(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 	int status;
 	HANDLE thread;
@@ -141,4 +141,9 @@ out:
 
 	LocalFree(args);
 	return ret;
+}
+
+int main(int argc, char *argv[])
+{
+	return WinMain_entry(NULL, NULL, NULL, 0);
 }
