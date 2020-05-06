@@ -359,20 +359,22 @@ static BOOL wf_post_connect(freerdp* instance)
 	if (settings->EmbeddedWindow)
 		settings->Decorations = FALSE;
 
-	if (wfc->fullscreen)
+	if (wfc->fullscreen) {
 		dwStyle = WS_POPUP;
-	else if (!settings->Decorations)
-		//dwStyle = WS_CHILD | WS_BORDER;
-		dwStyle = WS_OVERLAPPED;
-	else
+	} else if (!settings->Decorations) {
+		dwStyle = WS_BORDER;
+	} else {
 		dwStyle =
 		    WS_CAPTION | WS_OVERLAPPED | WS_SYSMENU | WS_MINIMIZEBOX | WS_SIZEBOX | WS_MAXIMIZEBOX;
+	}
 
 	if (!wfc->hwnd)
 	{
-		wfc->hwnd = CreateWindowEx((DWORD)NULL, wfc->wndClassName, wfc->window_title, dwStyle, 0, 0,
+		WCHAR *title = (settings->Decorations) ? wfc->window_title : NULL;
+		wfc->hwnd = CreateWindowEx((DWORD)NULL, wfc->wndClassName, title, dwStyle, 0, 0,
 		                           0, 0, wfc->hWndParent, NULL, wfc->hInstance, NULL);
 		SetWindowLongPtr(wfc->hwnd, GWLP_USERDATA, (LONG_PTR)wfc);
+		SetWindowLong(wfc->hwnd, GWL_STYLE, 0);
 		wfc->client_x = (settings->DesktopPosX != UINT32_MAX) ? settings->DesktopPosX : 0;
 		wfc->client_y = (settings->DesktopPosY != UINT32_MAX) ? settings->DesktopPosY : 0;
 	}

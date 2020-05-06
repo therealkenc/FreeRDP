@@ -342,8 +342,6 @@ void wf_resize_window(wfContext* wfc)
 	}
 	else if (!wfc->context.settings->Decorations)
 	{
-		SetWindowLongPtr(wfc->hwnd, GWL_STYLE, WS_CHILD);
-
 		if (settings->EmbeddedWindow)
 		{
 			if (!wfc->client_height)
